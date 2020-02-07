@@ -17,10 +17,13 @@ namespace OnePlace\Contact\Address;
 
 use Application\Controller\CoreEntityController;
 use Laminas\Mvc\MvcEvent;
+use Laminas\Db\ResultSet\ResultSet;
+use Laminas\Db\TableGateway\TableGateway;
+use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\EventManager\EventInterface as Event;
 use Laminas\ModuleManager\ModuleManager;
-use Laminas\Db\Adapter\AdapterInterface;
 use OnePlace\Contact\Address\Controller\AddressController;
+use OnePlace\Contact\Address\Model\AddressTable;
 use OnePlace\Contact\Model\ContactTable;
 
 class Module {
@@ -47,10 +50,32 @@ class Module {
         $application = $e->getApplication();
         $container    = $application->getServiceManager();
         $oDbAdapter = $container->get(AdapterInterface::class);
-        $tableGateway = $container->get(ContactTable::class);
+        $tableGateway = $container->get(AddressTable::class);
 
         # Register Filter Plugin Hook
         CoreEntityController::addHook('contact-add-after-save',(object)['sFunction'=>'attachAddressToContact','oItem'=>new AddressController($oDbAdapter,$tableGateway,$container)]);
+        CoreEntityController::addHook('contact-edit-after-save',(object)['sFunction'=>'attachAddressToContact','oItem'=>new AddressController($oDbAdapter,$tableGateway,$container)]);
+    }
+
+    /**
+     * Load Models
+     */
+    public function getServiceConfig() : array {
+        return [
+            'factories' => [
+                # Address Plugin - Base Model
+                Model\AddressTable::class => function($container) {
+                    $tableGateway = $container->get(Model\AddressTableGateway::class);
+                    return new Model\AddressTable($tableGateway,$container);
+                },
+                Model\AddressTableGateway::class => function ($container) {
+                    $dbAdapter = $container->get(AdapterInterface::class);
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new Model\Address($dbAdapter));
+                    return new TableGateway('contact_address', $dbAdapter, null, $resultSetPrototype);
+                },
+            ],
+        ];
     }
 
     /**
@@ -62,7 +87,7 @@ class Module {
                 # Plugin Example Controller
                 Controller\AddressController::class => function($container) {
                     $oDbAdapter = $container->get(AdapterInterface::class);
-                    $tableGateway = $container->get(ContactTable::class);
+                    $tableGateway = $container->get(AddressTable::class);
 
                     # hook start
                     # hook end

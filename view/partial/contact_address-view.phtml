@@ -1,3 +1,31 @@
 <?php
+use Application\Controller\CoreController;
+use OnePlace\Contact\Address\Model\AddressTable;
+
+$oForm = CoreController::$aCoreTables['core-form']->select(['form_key'=>'contactaddress-single']);
+
+$oAddressTbl = CoreController::$oServiceManager->get(AddressTable::class);
+
+$oAddresses = $oAddressTbl->fetchAll(false,['contact_idfs'=>$oItem->getID()]);
+$oPrimaryAddress = false;
+if(count($oAddresses) > 0) {
+    foreach($oAddresses as $oAddr) {
+        $oPrimaryAddress = $oAddr;
+        break;
+    }
+}
+if(count($oForm) > 0) {
+    $aFields = [
+        'address-base' => CoreController::$aCoreTables['core-form-field']->select(['form'=>'contactaddress-single']),
+    ];
+    ?>
+    <?php if($oPrimaryAddress) { ?>
+    <?= $this->partial('partial/viewformfields', ['sFormName'=>'contactaddress-single','sTab'=>'address-base','oItem'=>$oPrimaryAddress,'aFormFieldsByTab'=>$aFields]); ?>
+    <?php } else { ?>
+        <div>No Address</div>
+    <?php }
+} else {
+    echo 'Could not load address form';
+}
 ?>
-<h2>View Address</h2>
+

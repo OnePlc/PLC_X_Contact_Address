@@ -20,4 +20,10 @@ use Laminas\Router\Http\Segment;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 
 return [
+    # View Settings
+    'view_manager' => [
+        'template_path_stack' => [
+            'contact-address' => __DIR__ . '/../view',
+        ],
+    ],
 ];

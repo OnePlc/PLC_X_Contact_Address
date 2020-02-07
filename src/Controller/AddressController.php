@@ -19,8 +19,7 @@ namespace OnePlace\Contact\Address\Controller;
 
 use Application\Controller\CoreEntityController;
 use Application\Model\CoreEntityModel;
-use OnePlace\Contact\Model\Contact;
-use OnePlace\Contact\Model\ContactTable;
+use OnePlace\Contact\Address\Model\AddressTable;
 use Laminas\View\Model\ViewModel;
 use Laminas\Db\Adapter\AdapterInterface;
 
@@ -39,9 +38,9 @@ class AddressController extends CoreEntityController {
      * @param ContactTable $oTableGateway
      * @since 1.0.0
      */
-    public function __construct(AdapterInterface $oDbAdapter,ContactTable $oTableGateway,$oServiceManager) {
+    public function __construct(AdapterInterface $oDbAdapter,AddressTable $oTableGateway,$oServiceManager) {
         $this->oTableGateway = $oTableGateway;
-        $this->sSingleForm = 'contact-single';
+        $this->sSingleForm = 'contactaddress-single';
         parent::__construct($oDbAdapter,$oTableGateway,$oServiceManager);
 
         if($oTableGateway) {
@@ -62,6 +61,34 @@ class AddressController extends CoreEntityController {
      * @since 1.0.0
      */
     public function attachAddressToContact($oContact,$aFormData,$sState) {
-        return false;
+        # Parse Raw Form Data for Address Fields
+        $aAddressFields = $this->getFormFields($this->sSingleForm);
+        $aAddressData = [];
+        foreach($aAddressFields as $oField) {
+            if(array_key_exists($this->sSingleForm.'_'.$oField->fieldkey,$aFormData)) {
+                $aAddressData[$oField->fieldkey] = $aFormData[$this->sSingleForm.'_'.$oField->fieldkey];
+            }
+        }
+
+        # Link Contact to ADdress
+        $aAddressData['contact_idfs'] = $oContact->getID();
+        if(isset($aFormData[$this->sSingleForm.'_address_primary_id'])) {
+            $aAddressData['Address_ID'] = $aFormData[$this->sSingleForm.'_address_primary_id'];
+        }
+
+        # Generate New Address
+        $oAddress = $this->oTableGateway->generateNew();
+
+        # Attach Data
+        $oAddress->exchangeArray($aAddressData);
+
+        # Save to Database
+        $iAddressID = $this->oTableGateway->saveSingle($oAddress);
+
+        return true;
+    }
+
+    public function attachAddressForm() {
+        return [];
     }
 }
