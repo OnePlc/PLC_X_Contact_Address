@@ -1,45 +1,19 @@
 <?php
-use Application\Controller\CoreController;
-use OnePlace\Contact\Address\Model\AddressTable;
-
-$oForm = CoreController::$aCoreTables['core-form']->select(['form_key'=>'contactaddress-single']);
-if(count($oForm) > 0) {
-    try {
-        $oAddressTbl = CoreController::$oServiceManager->get(AddressTable::class);
-    } catch(\RuntimeException $e) {
-        echo '<div class="alert alert-danger"><b>Error:</b> Could not load address table</div>';
-    }
-
-    if(isset($oAddressTbl)) {
-        # load contact addresses
-        $oAddresses = $oAddressTbl->fetchAll(false, ['contact_idfs' => $oItem->getID()]);
-        $oPrimaryAddress = false;
-        if (count($oAddresses) > 0) {
-            foreach ($oAddresses as $oAddr) {
-                $oPrimaryAddress = $oAddr;
-                break;
-            }
-        }
-
-        # add address form fields
-        $aFields = [
-            'address-base' => CoreController::$aCoreTables['core-form-field']->select(['form' => 'contactaddress-single']),
-        ];
-
-        $aPartialData = ['sFormName' => 'contactaddress-single', 'sTab' => 'address-base', 'aFieldsByTab' => $aFields];
-        if ($oPrimaryAddress) {
-            $aPartialData['oItem'] = $oPrimaryAddress;
-            ?>
-            <input type="hidden" name="contactaddress-single_address_primary_id"
-                   value="<?= $oPrimaryAddress->getID() ?>"/>
-        <?php } ?>
+# Only show partial if data is set
+if(array_key_exists('contact_address',$this->aPartialData)) {
+    # add address form fields
+    $oPrimaryAddress = $this->aPartialData['contact_address']['oPrimaryAddress'];
+    $oAddresses =  $this->aPartialData['contact_address']['oAddresses'];
+    $aFields = $this->aPartialData['contact_address']['aFormFields'];
+    ?>
+    <?php if ($oPrimaryAddress) { ?>
+        <input type="hidden" name="contactaddress-single_address_primary_id" value="<?=$oPrimaryAddress->getID()?>" />
         <div class="row">
-            <?= $this->partial('partial/basicformfields', $aPartialData); ?>
+            <?= $this->partial('partial/basicformfields', ['sFormName' => 'contactaddress-single', 'sTab' => 'address-base', 'oItem' => $oPrimaryAddress, 'aFieldsByTab' => $aFields]); ?>
         </div>
-        <?php
-    }
-} else {
-    echo '<div class="alert alert-danger"><b>Error:</b>Could not load address form</div>';
+    <?php } else { ?>
+        <div class="row">
+            <?= $this->partial('partial/basicformfields', ['sFormName' => 'contactaddress-single', 'sTab' => 'address-base', 'aFieldsByTab' => $aFields]); ?>
+        </div>
+    <?php }
 }
-?>
-

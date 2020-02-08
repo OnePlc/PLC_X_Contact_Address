@@ -72,7 +72,6 @@ class AddressTable extends CoreEntityTable {
             $aData['modified_by'] = CoreController::$oSession->oUser->getID();
             $aData['modified_date'] = date('Y-m-d H:i:s',time());
 
-            echo 'save new address';
             # Insert Contact
             $this->oTableGateway->insert($aData);
 

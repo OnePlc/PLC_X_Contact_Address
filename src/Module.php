@@ -30,9 +30,9 @@ class Module {
     /**
      * Module Version
      *
-     * @since 1.0.0
+     * @since 1.0.1
      */
-    const VERSION = '1.0.0';
+    const VERSION = '1.0.1';
 
     /**
      * Load module config file
@@ -53,6 +53,9 @@ class Module {
         $tableGateway = $container->get(AddressTable::class);
 
         # Register Filter Plugin Hook
+        CoreEntityController::addHook('contact-edit-before',(object)['sFunction'=>'attachAddressForm','oItem'=>new AddressController($oDbAdapter,$tableGateway,$container)]);
+        CoreEntityController::addHook('contact-add-before',(object)['sFunction'=>'attachAddressForm','oItem'=>new AddressController($oDbAdapter,$tableGateway,$container)]);
+        CoreEntityController::addHook('contact-view-before',(object)['sFunction'=>'attachAddressForm','oItem'=>new AddressController($oDbAdapter,$tableGateway,$container)]);
         CoreEntityController::addHook('contact-add-after-save',(object)['sFunction'=>'attachAddressToContact','oItem'=>new AddressController($oDbAdapter,$tableGateway,$container)]);
         CoreEntityController::addHook('contact-edit-after-save',(object)['sFunction'=>'attachAddressToContact','oItem'=>new AddressController($oDbAdapter,$tableGateway,$container)]);
     }

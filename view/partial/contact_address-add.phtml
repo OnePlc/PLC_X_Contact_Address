@@ -1,17 +1,12 @@
 <?php
-use Application\Controller\CoreController;
-use OnePlace\Contact\Address\Model\AddressTable;
-
-$oForm = CoreController::$aCoreTables['core-form']->select(['form_key'=>'contactaddress-single']);
-if(count($oForm) > 0) {
-    $aFields = [
-        'address-base' => CoreController::$aCoreTables['core-form-field']->select(['form'=>'contactaddress-single']),
-    ];
+# Only show partial if data is set
+if(array_key_exists('contact_address',$this->aPartialData)) {
+    # add address form fields
+    $oPrimaryAddress = $this->aPartialData['contact_address']['oPrimaryAddress'];
+    $aFields = $this->aPartialData['contact_address']['aFormFields'];
     ?>
-    <?= $this->partial('partial/basicformfields', ['sFormName'=>'contactaddress-single','sTab'=>'address-base','aFieldsByTab'=>$aFields]); ?>
-    <?php
-} else {
-    echo 'Could not load address form';
+    <div class="row">
+        <?= $this->partial('partial/basicformfields', ['sFormName' => 'contactaddress-single', 'sTab' => 'address-base', 'aFieldsByTab' => $aFields]); ?>
+    </div>
+<?php
 }
-?>
-

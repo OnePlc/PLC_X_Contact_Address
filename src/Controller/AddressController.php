@@ -90,7 +90,55 @@ class AddressController extends CoreEntityController {
         return true;
     }
 
-    public function attachAddressForm() {
-        return [];
+    public function attachAddressForm($oItem = false) {
+        $oForm = CoreEntityController::$aCoreTables['core-form']->select(['form_key'=>'contactaddress-single']);
+        $aFields = [
+            'address-base' => CoreEntityController::$aCoreTables['core-form-field']->select(['form' => 'contactaddress-single']),
+        ];
+
+        # Try to get adress table
+        try {
+            $oAddressTbl = CoreEntityController::$oServiceManager->get(AddressTable::class);
+        } catch(\RuntimeException $e) {
+            //echo '<div class="alert alert-danger"><b>Error:</b> Could not load address table</div>';
+            return [];
+        }
+
+        if(!isset($oAddressTbl)) {
+            return [];
+        }
+
+        $aAddresses = [];
+        $oPrimaryAddress = false;
+        if($oItem) {
+            # load contact addresses
+            $oAddresses = $oAddressTbl->fetchAll(false, ['contact_idfs' => $oItem->getID()]);
+            # get primary address
+            if (count($oAddresses) > 0) {
+                $bFirst = true;
+                foreach ($oAddresses as $oAddr) {
+                    if($bFirst) {
+                        $oPrimaryAddress = $oAddr;
+                    } else {
+                        $aAddresses[] = $oAddr;
+                    }
+                    $bFirst = false;
+                }
+            }
+        }
+
+        # Pass Data to View - which will pass it to our partial
+        return [
+            # must be named aPartialExtraData
+            'aPartialExtraData' => [
+                # must be name of your partial
+                'contact_address'=> [
+                    'oAddresses'=>$aAddresses,
+                    'oPrimaryAddress'=>$oPrimaryAddress,
+                    'oForm'=>$oForm,
+                    'aFormFields'=>$aFields,
+                ]
+            ]
+        ];
     }
 }
