@@ -21,7 +21,7 @@ CREATE TABLE `contact_address` (
   `appartment` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `zip` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   `city` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `country` varchar(3) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `country_idfs` int(11) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_by` int(11) NOT NULL,
   `created_date` datetime NOT NULL,
   `modified_by` int(11) NOT NULL,
@@ -46,4 +46,19 @@ INSERT INTO `core_form` (`form_key`, `label`, `entity_class`, `entity_tbl_class`
 --
 INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `form`, `class`, `url_view`, `url_list`, `show_widget_left`, `allow_clear`, `readonly`, `tbl_cached_name`, `tbl_class`, `tbl_permission`) VALUES
 (NULL, 'text', 'Street', 'street', 'address-base', 'contactaddress-single', 'col-md-6', '', '', '0', '1', '0', '', '', ''),
-(NULL, 'select', 'Contact', 'contact_idfs', 'address-base', 'contactaddress-single', 'col-md-3', '', '/contact/api/list/0', '0', '1', '0', 'contact-single', 'OnePlace\\Contact\\Model\\ContactTable', 'add-OnePlace\\Contact\\Controller\\ContactController');
+(NULL, 'text', 'Zip', 'zip', 'address-base', 'contactaddress-single', 'col-md-1', '', '', '0', '1', '0', '', '', ''),
+(NULL, 'text', 'City', 'city', 'address-base', 'contactaddress-single', 'col-md-4', '', '', '0', '1', '0', '', '', ''),
+(NULL, 'hidden', 'Contact', 'contact_idfs', 'address-base', 'contactaddress-single', 'col-md-3', '', '/', '0', '1', '0', '', '', ''),
+(NULL, 'select', 'Country', 'country_idfs', 'address-base', 'contactaddress-single', 'col-md-3', '', '/tag/api/list/address-single/country', 0, 1, 0, 'entitytag-single', 'OnePlace\\Tag\\Model\\EntityTagTable', 'add-OnePlace\\Tag\\Controller\\CountryController');
+
+--
+-- add new tag country
+--
+INSERT INTO `core_tag` (`Tag_ID`, `tag_key`, `tag_label`, `created_by`, `created_date`, `modified_by`, `modified_date`) VALUES
+(NULL, 'country', 'Country', '1', '0000-00-00 00:00:00', '1', '0000-00-00 00:00:00');
+
+--
+-- permission add country
+--
+INSERT INTO `permission` (`permission_key`, `module`, `label`, `nav_label`, `nav_href`, `show_in_menu`) VALUES
+('add', 'OnePlace\\Tag\\Controller\\CountryController', 'Add', '', '', '0');

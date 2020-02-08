@@ -60,20 +60,22 @@ class AddressController extends CoreEntityController {
      * @return bool true or false
      * @since 1.0.0
      */
-    public function attachAddressToContact($oContact,$aFormData,$sState) {
+    public function attachAddressToContact($oContact,$aRawFormData,$sState) {
+        $aFormData = $this->parseFormData($aRawFormData);
+
         # Parse Raw Form Data for Address Fields
         $aAddressFields = $this->getFormFields($this->sSingleForm);
         $aAddressData = [];
         foreach($aAddressFields as $oField) {
-            if(array_key_exists($this->sSingleForm.'_'.$oField->fieldkey,$aFormData)) {
-                $aAddressData[$oField->fieldkey] = $aFormData[$this->sSingleForm.'_'.$oField->fieldkey];
+            if(array_key_exists($oField->fieldkey,$aFormData)) {
+                $aAddressData[$oField->fieldkey] = $aFormData[$oField->fieldkey];
             }
         }
 
         # Link Contact to ADdress
         $aAddressData['contact_idfs'] = $oContact->getID();
-        if(isset($aFormData[$this->sSingleForm.'_address_primary_id'])) {
-            $aAddressData['Address_ID'] = $aFormData[$this->sSingleForm.'_address_primary_id'];
+        if(isset($aRawFormData[$this->sSingleForm.'_address_primary_id'])) {
+            $aAddressData['Address_ID'] = $aRawFormData[$this->sSingleForm.'_address_primary_id'];
         }
 
         # Generate New Address
