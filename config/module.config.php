@@ -20,6 +20,22 @@ use Laminas\Router\Http\Segment;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 
 return [
+    # Skeleton Module - Routes
+    'router' => [
+        'routes' => [
+            'contact-address-setup' => [
+                'type'    => Literal::class,
+                'options' => [
+                    'route'    => '/contact/address/setup',
+                    'defaults' => [
+                        'controller' => Controller\InstallController::class,
+                        'action'     => 'checkdb',
+                    ],
+                ],
+            ],
+        ],
+    ],
+
     # View Settings
     'view_manager' => [
         'template_path_stack' => [
