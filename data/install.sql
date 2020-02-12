@@ -54,11 +54,11 @@ INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `
 --
 -- add new tag country
 --
-INSERT INTO `core_tag` (`Tag_ID`, `tag_key`, `tag_label`, `created_by`, `created_date`, `modified_by`, `modified_date`) VALUES
+INSERT IGNORE INTO `core_tag` (`Tag_ID`, `tag_key`, `tag_label`, `created_by`, `created_date`, `modified_by`, `modified_date`) VALUES
 (NULL, 'country', 'Country', '1', '0000-00-00 00:00:00', '1', '0000-00-00 00:00:00');
 
 --
 -- permission add country
 --
-INSERT INTO `permission` (`permission_key`, `module`, `label`, `nav_label`, `nav_href`, `show_in_menu`) VALUES
-('add', 'OnePlace\\Tag\\Controller\\CountryController', 'Add', '', '', '0');
+INSERT IGNORE INTO `permission` (`permission_key`, `module`, `label`, `nav_label`, `nav_href`, `show_in_menu`) VALUES
+('add', 'OnePlace\\Tag\\Controller\\CountryController', 'Add Country', '', '', '0');
