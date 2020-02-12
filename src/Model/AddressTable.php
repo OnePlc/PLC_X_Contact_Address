@@ -2,7 +2,7 @@
 /**
  * AddressTable.php - Address Table
  *
- * Table Model for Contact Address
+ * Table Model for Address Address
  *
  * @category Model
  * @package Contact\Address
@@ -40,7 +40,7 @@ class AddressTable extends CoreEntityTable {
     }
 
     /**
-     * Get Contact Entity
+     * Get Address Entity
      *
      * @param int $id
      * @return mixed
@@ -52,18 +52,18 @@ class AddressTable extends CoreEntityTable {
     }
 
     /**
-     * Save Contact Entity
+     * Save Address Entity
      *
-     * @param Contact $oContact
-     * @return int Contact ID
+     * @param Address $oAddress
+     * @return int Address ID
      * @since 1.0.0
      */
-    public function saveSingle(Address $oContact) {
+    public function saveSingle(Address $oAddress) {
         $aData = [];
 
-        $aData = $this->attachDynamicFields($aData,$oContact);
+        $aData = $this->attachDynamicFields($aData,$oAddress);
 
-        $id = (int) $oContact->id;
+        $id = (int) $oAddress->id;
 
         if ($id === 0) {
             # Add Metadata
@@ -72,14 +72,14 @@ class AddressTable extends CoreEntityTable {
             $aData['modified_by'] = CoreController::$oSession->oUser->getID();
             $aData['modified_date'] = date('Y-m-d H:i:s',time());
 
-            # Insert Contact
+            # Insert Address
             $this->oTableGateway->insert($aData);
 
             # Return ID
             return $this->oTableGateway->lastInsertValue;
         }
 
-        # Check if Contact Entity already exists
+        # Check if Address Entity already exists
         try {
             $this->getSingle($id);
         } catch (\RuntimeException $e) {
@@ -93,7 +93,7 @@ class AddressTable extends CoreEntityTable {
         $aData['modified_by'] = CoreController::$oSession->oUser->getID();
         $aData['modified_date'] = date('Y-m-d H:i:s',time());
 
-        # Update Contact
+        # Update Address
         $this->oTableGateway->update($aData, ['Address_ID' => $id]);
 
         return $id;
@@ -102,7 +102,7 @@ class AddressTable extends CoreEntityTable {
     /**
      * Generate new single Entity
      *
-     * @return Contact
+     * @return Address
      * @since 1.0.0
      */
     public function generateNew() {

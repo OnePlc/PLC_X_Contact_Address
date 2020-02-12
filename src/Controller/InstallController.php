@@ -10,7 +10,7 @@
  * @copyright (C) 2020  Verein onePlace <admin@1plc.ch>
  * @license https://opensource.org/licenses/BSD-3-Clause
  * @version 1.0.0
- * @since 1.0.0
+ * @since 1.0.1
  */
 
 declare(strict_types=1);
@@ -27,10 +27,10 @@ use Laminas\Db\ResultSet\ResultSet;
 
 class InstallController extends CoreUpdateController {
     /**
-     * SkeletonController constructor.
+     * InstallController constructor.
      *
      * @param AdapterInterface $oDbAdapter
-     * @param SkeletonTable $oTableGateway
+     * @param AddressTable $oTableGateway
      * @since 1.0.0
      */
     public function __construct(AdapterInterface $oDbAdapter, AddressTable $oTableGateway, $oServiceManager)

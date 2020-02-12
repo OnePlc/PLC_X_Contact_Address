@@ -2,7 +2,7 @@
 /**
  * Module.php - Module Class
  *
- * Module Class File for Contact Address Plugin
+ * Module Class File for Address Address Plugin
  *
  * @category Config
  * @package Contact\Address
@@ -32,7 +32,7 @@ class Module {
      *
      * @since 1.0.0
      */
-    const VERSION = '1.0.3';
+    const VERSION = '1.0.4';
 
     /**
      * Load module config file
@@ -79,7 +79,7 @@ class Module {
                 },
             ],
         ];
-    }
+    } # getServiceConfig()
 
     /**
      * Load Controllers
@@ -87,7 +87,6 @@ class Module {
     public function getControllerConfig() : array {
         return [
             'factories' => [
-                # Plugin Example Controller
                 Controller\AddressController::class => function($container) {
                     $oDbAdapter = $container->get(AdapterInterface::class);
                     $tableGateway = $container->get(AddressTable::class);
@@ -111,5 +110,5 @@ class Module {
                 },
             ],
         ];
-    }
+    } # getControllerConfig()
 }

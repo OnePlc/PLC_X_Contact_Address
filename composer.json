@@ -2,14 +2,14 @@
   "name": "oneplace/oneplace-contact-address",
   "description": "onePlace Contact Address Plugin. Multiple Addresses for Contacts",
   "type": "oneplace-plugin",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "license": "BSD-3-Clause",
   "keywords": [
     "laminas",
     "mvc",
     "oneplace-module",
     "oneplace",
-    "skeleton",
+    "address",
     "framework"
   ],
   "require-dev": {

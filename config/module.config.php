@@ -2,7 +2,7 @@
 /**
  * module.config.php - Address Config
  *
- * Main Config File for Contact Address Plugin
+ * Main Config File for Address Address Plugin
  *
  * @category Config
  * @package Contact\Address
@@ -20,7 +20,7 @@ use Laminas\Router\Http\Segment;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 
 return [
-    # Skeleton Module - Routes
+    # Address Module - Routes
     'router' => [
         'routes' => [
             'contact-address-setup' => [
@@ -34,7 +34,7 @@ return [
                 ],
             ],
         ],
-    ],
+    ], # Routes
 
     # View Settings
     'view_manager' => [
