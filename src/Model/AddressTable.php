@@ -52,51 +52,18 @@ class AddressTable extends CoreEntityTable {
     }
 
     /**
-     * Save Address Entity
+     * Save Contact Entity
      *
      * @param Address $oAddress
-     * @return int Address ID
+     * @return int Request ID
      * @since 1.0.0
      */
     public function saveSingle(Address $oAddress) {
-        $aData = [];
+        $aDefaultData = [
+            'label' => $oAddress->label,
+        ];
 
-        $aData = $this->attachDynamicFields($aData,$oAddress);
-
-        $id = (int) $oAddress->id;
-
-        if ($id === 0) {
-            # Add Metadata
-            $aData['created_by'] = CoreController::$oSession->oUser->getID();
-            $aData['created_date'] = date('Y-m-d H:i:s',time());
-            $aData['modified_by'] = CoreController::$oSession->oUser->getID();
-            $aData['modified_date'] = date('Y-m-d H:i:s',time());
-
-            # Insert Address
-            $this->oTableGateway->insert($aData);
-
-            # Return ID
-            return $this->oTableGateway->lastInsertValue;
-        }
-
-        # Check if Address Entity already exists
-        try {
-            $this->getSingle($id);
-        } catch (\RuntimeException $e) {
-            throw new \RuntimeException(sprintf(
-                'Cannot update Address with identifier %d; does not exist',
-                $id
-            ));
-        }
-
-        # Update Metadata
-        $aData['modified_by'] = CoreController::$oSession->oUser->getID();
-        $aData['modified_date'] = date('Y-m-d H:i:s',time());
-
-        # Update Address
-        $this->oTableGateway->update($aData, ['Address_ID' => $id]);
-
-        return $id;
+        return $this->saveSingleEntity($oAddress,'Address_ID',$aDefaultData);
     }
 
     /**

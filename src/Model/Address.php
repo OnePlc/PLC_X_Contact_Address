@@ -42,6 +42,7 @@ class Address extends CoreEntityModel {
      */
     public function exchangeArray(array $aData) {
         $this->id = !empty($aData['Address_ID']) ? $aData['Address_ID'] : 0;
+        $this->label = !empty($aData['label']) ? $aData['label'] : $this->getLabel();
 
         $this->updateDynamicFields($aData);
     }

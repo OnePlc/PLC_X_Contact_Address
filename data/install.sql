@@ -15,6 +15,7 @@ INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `
 --
 CREATE TABLE `contact_address` (
   `Address_ID` int(11) NOT NULL,
+  `label` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `contact_idfs` int(11) NOT NULL,
   `street` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
   `street_extra` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
