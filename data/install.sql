@@ -2,7 +2,7 @@
 -- Add new tab
 --
 INSERT INTO `core_form_tab` (`Tab_ID`, `form`, `title`, `subtitle`, `icon`, `counter`, `sort_id`, `filter_check`, `filter_value`) VALUES
-('contact-address', 'contact-single', 'Address', 'Delivery & Billing', 'fas fa-home', '', '1', '', '');
+('contact-address', 'contact-single', 'Address', 'Delivery & Billing', 'fas fa-home', '', '0', '', '');
 
 --
 -- Add new partial
@@ -61,5 +61,5 @@ INSERT IGNORE INTO `core_tag` (`Tag_ID`, `tag_key`, `tag_label`, `created_by`, `
 --
 -- permission add country
 --
-INSERT IGNORE INTO `permission` (`permission_key`, `module`, `label`, `nav_label`, `nav_href`, `show_in_menu`) VALUES
-('add', 'OnePlace\\Tag\\Controller\\CountryController', 'Add Country', '', '', '0');
+INSERT IGNORE INTO `permission` (`permission_key`, `module`, `label`, `nav_label`, `nav_href`, `show_in_menu`, `needs_globaladmin`) VALUES
+('add', 'OnePlace\\Tag\\Controller\\CountryController', 'Add Country', '', '', 0, 0);
