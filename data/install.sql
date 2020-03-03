@@ -63,3 +63,8 @@ INSERT IGNORE INTO `core_tag` (`Tag_ID`, `tag_key`, `tag_label`, `created_by`, `
 --
 INSERT IGNORE INTO `permission` (`permission_key`, `module`, `label`, `nav_label`, `nav_href`, `show_in_menu`, `needs_globaladmin`) VALUES
 ('add', 'OnePlace\\Tag\\Controller\\CountryController', 'Add Country', '', '', 0, 0);
+
+--
+-- quicksearch fix
+--
+INSERT INTO `settings` (`settings_key`, `settings_value`) VALUES ('quicksearch-contactaddress-customlabel', 'street');
