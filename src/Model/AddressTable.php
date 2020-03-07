@@ -43,12 +43,13 @@ class AddressTable extends CoreEntityTable {
      * Get Address Entity
      *
      * @param int $id
+     * @param string $sKey
      * @return mixed
      * @since 1.0.0
      */
-    public function getSingle($id) {
+    public function getSingle($id,$sKey = 'Address_ID') {
         # Use core function
-        return $this->getSingleEntity($id,'Address_ID');
+        return $this->getSingleEntity($id,$sKey);
     }
 
     /**
@@ -60,7 +61,7 @@ class AddressTable extends CoreEntityTable {
      */
     public function saveSingle(Address $oAddress) {
         $aDefaultData = [
-            'label' => $oAddress->label,
+            'street' => $oAddress->street,
         ];
 
         return $this->saveSingleEntity($oAddress,'Address_ID',$aDefaultData);
