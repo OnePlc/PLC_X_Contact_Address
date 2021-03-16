@@ -46,6 +46,7 @@ INSERT INTO `core_form` (`form_key`, `label`, `entity_class`, `entity_tbl_class`
 --
 INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `form`, `class`, `url_view`, `url_list`, `show_widget_left`, `allow_clear`, `readonly`, `tbl_cached_name`, `tbl_class`, `tbl_permission`) VALUES
 (NULL, 'text', 'Street', 'street', 'address-base', 'contactaddress-single', 'col-md-6', '', '', '0', '1', '0', '', '', ''),
+(NULL, 'text', 'Apt', 'appartment', 'address-base', 'contactaddress-single', 'col-md-6', '', '', '0', '1', '0', '', '', ''),
 (NULL, 'text', 'Zip', 'zip', 'address-base', 'contactaddress-single', 'col-md-1', '', '', '0', '1', '0', '', '', ''),
 (NULL, 'text', 'City', 'city', 'address-base', 'contactaddress-single', 'col-md-4', '', '', '0', '1', '0', '', '', ''),
 (NULL, 'hidden', 'Contact', 'contact_idfs', 'address-base', 'contactaddress-single', 'col-md-3', '', '/', '0', '1', '0', '', '', ''),
